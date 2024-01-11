@@ -1,6 +1,5 @@
 import { CSSProperties, useState } from 'react';
 import { TypeAnimation } from 'react-type-animation';
-import axios from 'axios';
 import { useRouter } from 'next/router';
 import { ClipLoader } from 'react-spinners';
 import Link from 'next/link';
@@ -16,21 +15,31 @@ export default function Index({displayData, setDisplayData}:any) {
     borderColor: "#0ea5e9",
   };
 
-  const handleSubmit = async() => {
-    setLoading(true)
-    try{
-      const response = await axios.post("http://18.219.145.113:5000/",
-      {input: input}).then(res => res.data)
-      .catch(err => console.log(err))
-      setDisplayData(response)
-      setLoading(false)
-      router.push('/results')
-    }
-    catch(err){
-      console.log(err)
-      setLoading(false)
-    }
-  }
+  const handleSubmit = () => {
+    setLoading(true);
+  
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "http://18.219.145.113:5000/", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+  
+    xhr.onreadystatechange = function () {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          const response = JSON.parse(xhr.responseText);
+          setDisplayData(response);
+          setLoading(false);
+          router.push('/results');
+        } else {
+          console.error(xhr.status, xhr.statusText);
+          setLoading(false);
+        }
+      }
+    };
+  
+    const requestBody = JSON.stringify({ input: input });
+    xhr.send(requestBody);
+  };
+  
 
   return (
     <main className="relative w-screen h-screen flex flex-col justify-center px-40">
