@@ -81,7 +81,7 @@ export default function Results({displayData, setDisplayData}:any){
                 });
             }
         }
-        createChart()
+        if(displayData){createChart()}
     }, [displayData])
 
     return (
