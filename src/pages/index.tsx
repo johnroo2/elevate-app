@@ -3,6 +3,7 @@ import { TypeAnimation } from 'react-type-animation';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { ClipLoader } from 'react-spinners';
+import Link from 'next/link';
 
 export default function Index({displayData, setDisplayData}:any) {
   const [input, setInput] = useState<string>("")  
@@ -55,10 +56,10 @@ export default function Index({displayData, setDisplayData}:any) {
           style={{ fontSize: '3.75em', fontWeight: '700', display: 'inline-block', pointerEvents:"none"}}
           repeat={Infinity}
         />
-        <a className="mt-[-1.5rem] text-2xl ml-1 font-normal hover:underline hover:text-sky-700 transition underline"
+        <Link className="mt-[-1.5rem] text-2xl ml-1 font-normal hover:underline hover:text-sky-700 transition underline"
         href="/info">
           Emotion detection using NLP-based sentiment analysis & transformer models
-        </a>
+        </Link>
         <textarea className="p-8 text-2xl font-medium rounded-md h-[350px] max-h-[400px] min-h-[300px] 
         bg-sky-50/[0.8] w-full"
         maxLength={10000} value={input} onChange={e => {setInput(e.target.value)}}

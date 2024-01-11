@@ -1,37 +1,37 @@
 import { Chart, ChartItem, registerables } from "chart.js";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 Chart.register(...registerables)
 
 export default function Results({displayData, setDisplayData}:any){
-    if(!displayData){
-        return <></>
-    }
-
-    let {label, probs} = displayData
-
-    label = label.map((item:string) => {
-        if(item === "suprise"){return "Surprise"}
-        return item.charAt(0).toUpperCase() + item.slice(1)
-    })
-
-    const probsClone = [...probs]
-    const primary = label[probs.indexOf(probsClone.sort()[5])]
-    const secondary = label[probs.indexOf(probsClone.sort()[4])]
-
-    const data = {
-        labels: label,
-        datasets: [{
-          backgroundColor: '#6DBAE0A0',
-          borderRadius: 5,
-          data: probs,
-        }],
-    };
+    const [primary, setPrimary] = useState<string>("")
+    const [secondary, setSecondary] = useState<string>("")
 
     const chartRef = useRef<any>(null);
 
     useEffect(() => {
         const createChart = () => {
+
+            let {label, probs} = displayData
+
+            label = label.map((item:string) => {
+                if(item === "suprise"){return "Surprise"}
+                return item.charAt(0).toUpperCase() + item.slice(1)
+            })
+
+            setPrimary(label[probs.indexOf([...probs].sort()[5])])
+            setSecondary(label[probs.indexOf([...probs].sort()[4])])
+
+            const data = {
+                labels: label,
+                datasets: [{
+                backgroundColor: '#6DBAE0A0',
+                borderRadius: 5,
+                data: probs,
+                }],
+            };
+
             if (document.getElementById('points-chart')) {
                 if (chartRef.current) {
                     chartRef.current.destroy();
@@ -82,14 +82,14 @@ export default function Results({displayData, setDisplayData}:any){
             }
         }
         createChart()
-    }, [data])
+    }, [displayData])
 
     return (
         <div className="relative flex flex-col gap-8 w-screen h-screen items-center justify-center pl-[20%] pr-[10%]">
-            <a href="/" className="absolute top-6 left-6 bg-sky-600 hover:bg-sky-500 text-white rounded-md px-12
+            <Link href="/" className="absolute top-6 left-6 bg-sky-600 hover:bg-sky-500 text-white rounded-md px-12
             py-[0.35rem] text-xl font-medium transition-all cursor-pointer">
                 Home
-            </a>
+            </Link>
             <div className="flex flex-col self-start gap-2" data-aos="fade-up">
                 <div className="text-[2.75rem] font-bold text-black ">
                     Primary Emotion Detected: {primary}
@@ -98,10 +98,10 @@ export default function Results({displayData, setDisplayData}:any){
                     Secondary Emotion Detected: {secondary}
                 </div>   
             </div>
-            <a className="mt-[-1.5rem] text-2xl font-normal hover:underline hover:text-sky-700 transition self-start underline"
+            <Link className="mt-[-1.5rem] text-2xl font-normal hover:underline hover:text-sky-700 transition self-start underline"
             href="/info" data-aos="fade-up">
                 How does my transformer model work?
-            </a>
+            </Link>
             <div className="w-[60vw] self-start">
                 <canvas id="points-chart" className="width-lockfull 
                 bg-sky-50 p-8 pb-4 rounded-md" data-aos="fade-up"/> 
