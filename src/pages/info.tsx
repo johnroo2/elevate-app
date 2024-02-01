@@ -27,9 +27,6 @@ export default function Info(){
                 consists of a simple, learnable affine transform. In addition, the head of the input and output 
                 branches are characterized by embedding layers, which are used to process the vectorized text. 
             </div>
-            <div className="mt-4 text-2xl font-bold leading-10 text-center w-[1100px] mb-12">
-                Thank you for your time and consideration. I hope to be hearing more from Elevate AI :)
-            </div>
         </div>
     )
 }
