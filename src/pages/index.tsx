@@ -19,7 +19,7 @@ export default function Index({ displayData, setDisplayData }: any) {
   const handleSubmit = async () => {
     setLoading(true)
     try {
-      const response = await axios.post("localhost:5000",
+      const response = await axios.post("http://127.0.0.1:5000",
         { input: input }).then(res => res.data)
         .catch(err => console.log(err))
       setDisplayData(response)
